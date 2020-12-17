@@ -1,0 +1,20 @@
+@page "/viewpost/{PostId}"
+@layout MainLayout
+@inherits ViewPostModel
+
+<WdHeader Heading=@BlogPost.Title Author=@BlogPost.Author PostedDate=@BlogPost.Posted></WdHeader>
+
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @((MarkupString)BlogPost.Post)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <NavLink class="btn btn-primary float-right" href="@($"/editpost/{BlogPost.Id}")">Edit</NavLink>
+            </div>
+        </div>
+    </div>
+</article>
