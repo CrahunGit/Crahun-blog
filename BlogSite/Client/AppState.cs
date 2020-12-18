@@ -10,7 +10,7 @@ namespace BlogSite.Client
 {
     public class AppState
     {
-        private readonly HttpClient _httpClient;
+        public readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
 
         public bool IsLoggedIn { get; private set; }
@@ -46,7 +46,7 @@ namespace BlogSite.Client
             var responseContent = await response.Content.ReadAsStringAsync();
             var jwt = JsonSerializer.Deserialize<JwToken>(responseContent);
 
-            await _localStorage.SetItemAsync("authToken", jwt.Token);
+            await _localStorage.SetItemAsync("authToken", jwt.token);
         }
 
         private async Task SetAuthorizationHeader()

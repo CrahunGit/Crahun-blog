@@ -10,7 +10,6 @@ namespace BlogSite.Client.Features.PostEditor
 {
     public class PostEditorModel : ComponentBase
     {
-        [Inject] private HttpClient _httpClient { get; set; }
         [Inject] private NavigationManager _uriHelper { get; set; }
         [Inject] private AppState _appState { get; set; }
         [Inject] IJSRuntime JSRuntime { get; set; }
@@ -48,28 +47,28 @@ namespace BlogSite.Client.Features.PostEditor
                 Posted = DateTime.Now
             };
 
-            var response = await _httpClient.PostAsJsonAsync(Urls.AddBlogPost, newPost);
+            var response = await _appState._httpClient.PostAsJsonAsync(Urls.AddBlogPost, newPost);
             var savedPost = await response.Content.ReadFromJsonAsync<BlogPost>();
             _uriHelper.NavigateTo($"viewpost/{savedPost.Id}");
         }
 
         public async Task UpdatePost() 
         {
-            await _httpClient.PutAsJsonAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), ExistingBlogPost);
+            await _appState._httpClient.PutAsJsonAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), ExistingBlogPost);
 
             _uriHelper.NavigateTo($"viewpost/{ExistingBlogPost.Id}");
         }
 
         public async Task DeletePost() 
         {
-            await _httpClient.DeleteAsync(Urls.DeleteBlogPost.Replace("{id}", ExistingBlogPost.Id.ToString()));
+            await _appState._httpClient.DeleteAsync(Urls.DeleteBlogPost.Replace("{id}", ExistingBlogPost.Id.ToString()));
 
             _uriHelper.NavigateTo("/");
         }
 
         private async Task LoadPost() 
         {
-            ExistingBlogPost = await _httpClient.GetFromJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
+            ExistingBlogPost = await _appState._httpClient.GetFromJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
             CharacterCount = ExistingBlogPost.Post.Length;
         }
     }
