@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace WordDaze.Server.Controllers
 {
@@ -17,15 +18,15 @@ namespace WordDaze.Server.Controllers
         }
 
         [HttpGet(Urls.BlogPosts)]
-        public IActionResult GetBlogPosts()
+        public async Task<IActionResult> GetBlogPosts()
         {
-            return Ok(_blogPostService.GetBlogPosts());
+            return Ok(await _blogPostService.GetBlogPosts());
         }
 
         [HttpGet(Urls.BlogPost)]
-        public IActionResult GetBlogPostById(int id)
+        public async Task<IActionResult> GetBlogPostById(int id)
         {
-            var blogPost = _blogPostService.GetBlogPost(id);
+            var blogPost = await _blogPostService.GetBlogPost(id);
 
             if (blogPost == null)
                 return NotFound();
@@ -35,28 +36,28 @@ namespace WordDaze.Server.Controllers
 
         [Authorize]
         [HttpPost(Urls.AddBlogPost)]
-        public IActionResult AddBlogPost([FromBody]BlogPost newBlogPost)
+        public async Task<IActionResult> AddBlogPost([FromBody]BlogPost newBlogPost)
         {
             newBlogPost.Author = Request.HttpContext.User.Identity.Name;
-            var savedBlogPost = _blogPostService.AddBlogPost(newBlogPost);
+            var savedBlogPost = await _blogPostService.AddBlogPost(newBlogPost);
 
             return Created(new Uri(Urls.BlogPost.Replace("{id}", savedBlogPost.Id.ToString()), UriKind.Relative), savedBlogPost);
         }
 
         [Authorize]
         [HttpPut(Urls.UpdateBlogPost)]
-        public IActionResult UpdateBlogPost(int id, [FromBody]BlogPost updatedBlogPost)
+        public async Task<IActionResult> UpdateBlogPost(int id, [FromBody]BlogPost updatedBlogPost)
         {
-            _blogPostService.UpdateBlogPost(id, updatedBlogPost.Post, updatedBlogPost.Title);
+            await _blogPostService.UpdateBlogPost(id, updatedBlogPost.Post, updatedBlogPost.Title);
 
             return Ok();
         }
 
         [Authorize]
         [HttpDelete(Urls.DeleteBlogPost)]
-        public IActionResult DeleteBlogPost(int id)
+        public async Task<IActionResult> DeleteBlogPost(int id)
         {
-            _blogPostService.DeleteBlogPost(id);
+            await _blogPostService.DeleteBlogPost(id);
 
             return Ok();
         }

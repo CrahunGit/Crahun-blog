@@ -1,50 +1,53 @@
+using Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WordDaze.Shared;
 
 namespace WordDaze.Server
 {
     public class BlogPostService
     {
-        private readonly List<BlogPost> _blogPosts;
+        private readonly BlogContext _context;
 
-        public BlogPostService()
+        public BlogPostService(BlogContext context)
         {
-            _blogPosts = new List<BlogPost>();
+            _context = context;
         }
 
-        public List<BlogPost> GetBlogPosts() 
+        public async Task<List<BlogPost>> GetBlogPosts() 
         {
-            return _blogPosts;
+            return await _context.Posts.AsNoTracking().ToListAsync();
         }
 
-        public BlogPost GetBlogPost(int id) 
+        public async Task<BlogPost> GetBlogPost(int id) 
         {
-            return _blogPosts.SingleOrDefault(x => x.Id == id);
+            return await _context.Posts.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public BlogPost AddBlogPost(BlogPost newBlogPost)
+        public async Task<BlogPost> AddBlogPost(BlogPost newBlogPost)
         {
-            newBlogPost.Id = _blogPosts.Count + 1;
-            _blogPosts.Add(newBlogPost);
-
+            _context.Posts.Add(newBlogPost);
+            await _context.SaveChangesAsync();
             return newBlogPost;
         }
 
-        public void UpdateBlogPost(int postId, string updatedPost, string updateTitle)
+        public async Task UpdateBlogPost(int postId, string updatedPost, string updateTitle)
         {
-            var originalBlogPost = _blogPosts.Find(x => x.Id == postId);
-            
+            var originalBlogPost = _context.Posts.Find(postId);            
             originalBlogPost.Post = updatedPost;
             originalBlogPost.Title = updateTitle;
+            await _context.SaveChangesAsync();
+
         }
 
-        public void DeleteBlogPost(int postId) 
+        public async Task DeleteBlogPost(int postId) 
         {
-            var blogPost = _blogPosts.Find(x => x.Id == postId);
-
-            _blogPosts.Remove(blogPost);
+            var blogPost = _context.Posts.Find(postId);
+            _context.Posts.Remove(blogPost);
+            await _context.SaveChangesAsync();
         }
     }
 }
