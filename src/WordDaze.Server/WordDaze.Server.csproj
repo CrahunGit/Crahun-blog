@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WordDaze.Client\WordDaze.Client.csproj" />
     <ProjectReference Include="..\WordDaze.Shared\WordDaze.Shared.csproj" />
   </ItemGroup>
 
