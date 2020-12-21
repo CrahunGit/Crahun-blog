@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WordDaze.Shared;
 using System.Linq;
 using System.Net.Http.Json;
+using Markdig;
 
 namespace BlogSite.Client.Features.Home
 {

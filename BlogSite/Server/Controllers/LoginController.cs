@@ -21,7 +21,7 @@ namespace WordDaze.Server.Controllers
         [HttpPost(Urls.Login)]
         public IActionResult Login([FromBody] LoginDetails login)
         {
-            if (login.Username == "admin" && login.Password == "SuperSecretPassword")
+            if (login.Username == _configuration["user"] && login.Password == _configuration["password"])
             {
                 var claims = new[]
                 {
