@@ -13,7 +13,7 @@ namespace BlogSite.Client.Features.Home
     {
         [Inject] private HttpClient _httpClient { get; set; }
 
-        protected List<BlogPost> blogPosts { get; set; } = new List<BlogPost>();
+        protected List<BlogPost> blogPosts { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

@@ -16,8 +16,6 @@ namespace BlogSite.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
-
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<AppState>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

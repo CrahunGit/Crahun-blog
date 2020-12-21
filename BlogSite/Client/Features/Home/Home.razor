@@ -6,11 +6,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            @foreach (var post in blogPosts)
-            {
-                <BlogPostPreview BlogPost=@post></BlogPostPreview>
-                <hr />
-            }
+            <SkeletonCards IsLoading="blogPosts is null" ShouldAnimate="true" NumberOfColumns="1">
+                @foreach (var post in blogPosts)
+                {
+                    <BlogPostPreview blogPost="@post"></BlogPostPreview>
+                    <hr />
+                }
+            </SkeletonCards>
         </div>
     </div>
 </div>

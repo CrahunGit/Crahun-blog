@@ -331,3 +331,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /BlogSite/Server/Database.db
+/BlogSite/Server/appsettings.Production.json
