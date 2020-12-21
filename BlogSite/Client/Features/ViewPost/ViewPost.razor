@@ -1,4 +1,5 @@
 @page "/viewpost/{PostId}"
+@using BlogSite.Client.Features.ViewPost
 @inherits ViewPostModel
 @inject AppState _appState
 
@@ -7,18 +8,25 @@
 <article>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                @((MarkupString)BlogPost.Post)
-            </div>
-        </div>
+            <SkeletonCards IsLoading="BlogPost.Author is null" ShouldAnimate="true" NumberOfColumns="1">
+                <SkeletonTemplate>
+                    <ViewPostSkeleton />
+                </SkeletonTemplate>
+                <ChildContent>
+                    <div class="col-md-12">
+                        @((MarkupString)BlogPost.Post)
+                    </div>
 
-        @if (_appState.IsLoggedIn)
-        {
-            <div class="row">
-                <div class="col-md-12">
-                    <NavLink class="btn btn-primary float-right" href="@($"/editpost/{BlogPost.Id}")">Edit</NavLink>
-                </div>
-            </div>
-        }
+                    @if (_appState.IsLoggedIn)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <NavLink class="btn btn-primary float-right" href="@($"/editpost/{BlogPost.Id}")">Edit</NavLink>
+                            </div>
+                        </div>
+                    }
+                </ChildContent>
+            </SkeletonCards>
+        </div>
     </div>
 </article>

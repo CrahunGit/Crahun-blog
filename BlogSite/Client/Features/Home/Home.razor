@@ -1,18 +1,20 @@
 ﻿@page "/"
+@using BlogSite.Client.Features.Home
 @inherits HomeModel
 
 <WdHeader Heading="El blog de Crahun" SubHeading="Mi pequeño rincón sobre tecnologia y muchas cosas"></WdHeader>
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            <SkeletonCards IsLoading="blogPosts is null" ShouldAnimate="true" NumberOfColumns="1">
-                @foreach (var post in blogPosts)
-                {
-                    <BlogPostPreview blogPost="@post"></BlogPostPreview>
-                    <hr />
-                }
-            </SkeletonCards>
-        </div>
-    </div>
+    <SkeletonCards IsLoading="blogPosts is null" ShouldAnimate="true" NumberOfColumns="1">
+        <SkeletonTemplate>
+            <BlogPostSkeleton />
+        </SkeletonTemplate>
+        <ChildContent>
+            @foreach (var post in blogPosts)
+            {
+                <BlogPostPreview blogPost="@post"></BlogPostPreview>
+                <hr />
+            }
+        </ChildContent>
+    </SkeletonCards>
 </div>
