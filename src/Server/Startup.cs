@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -88,11 +89,6 @@ namespace BlogSite.Server
                 app.UseHsts();
             }
 
-            app.Map("/migrate", c =>
-            {
-                var context = c.ApplicationServices.GetRequiredService<BlogContext>();
-                context.Database.Migrate();
-            });
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
@@ -107,6 +103,13 @@ namespace BlogSite.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapGet("/migrate", async c =>
+                {
+                    var context = c.RequestServices.GetService<BlogContext>();
+                    context.Database.Migrate();
+                    await c.Response.WriteAsync("ok");
+                });
+
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

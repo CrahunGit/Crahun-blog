@@ -1,4 +1,10 @@
-﻿.editor textarea {
+﻿.editor {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+editor textarea {
     outline: none;
     resize: none;
     width: 100%;
