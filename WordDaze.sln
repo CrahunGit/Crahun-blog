@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blog", "Blog", "{A2284CD8-E2FF-495B-B904-1BFC091BFA91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Server", "src\Server\BlogSite.Server.csproj", "{2E76A876-8667-45FB-95F9-5D164544FB15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Server", "BlogSite\Server\BlogSite.Server.csproj", "{2E76A876-8667-45FB-95F9-5D164544FB15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Client", "src\Client\BlogSite.Client.csproj", "{F55A415E-88A2-4D2C-8CD4-BA22D4B70199}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Client", "BlogSite\Client\BlogSite.Client.csproj", "{F55A415E-88A2-4D2C-8CD4-BA22D4B70199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Shared", "src\Shared\BlogSite.Shared.csproj", "{7C617055-D7BF-4580-AB3A-D71F07BC02EC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Shared", "BlogSite\Shared\BlogSite.Shared.csproj", "{7C617055-D7BF-4580-AB3A-D71F07BC02EC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{C02BF47F-4486-4114-91A2-9E723969F224}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "src\Database\Database.csproj", "{C02BF47F-4486-4114-91A2-9E723969F224}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
