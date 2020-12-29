@@ -1,3 +1,4 @@
+using Blazor.Analytics;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,7 @@ namespace BlogSite.Client
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<AppState>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+            builder.Services.AddGoogleAnalytics(builder.Configuration["analytics"]);            
             await builder.Build().RunAsync();
         }
     }

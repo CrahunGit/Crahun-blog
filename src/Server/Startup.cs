@@ -1,3 +1,4 @@
+using Blazor.Analytics;
 using Blazored.LocalStorage;
 using BlogSite.Client;
 using Database;
@@ -67,6 +68,7 @@ namespace BlogSite.Server
                 };
             });
 
+            services.AddGoogleAnalytics(Configuration["analytics"]);
             services.AddControllersWithViews();
             services.AddRazorPages();
 

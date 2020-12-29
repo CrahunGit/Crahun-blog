@@ -4,7 +4,7 @@
     padding: 20px;
 }
 
-editor textarea {
+.editor textarea {
     outline: none;
     resize: none;
     width: 100%;
