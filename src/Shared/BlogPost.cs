@@ -9,6 +9,8 @@ namespace WordDaze.Shared
         public string Author { get; set; }
         public DateTime Posted { get; set; }
         public string Post { get; set; }
+        public string ThumbnailImagePath { get; set; }
+
         public string PostSummary 
         { 
             get {

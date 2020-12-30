@@ -34,11 +34,16 @@ namespace WordDaze.Server
             return newBlogPost;
         }
 
-        public async Task UpdateBlogPost(int postId, string updatedPost, string updateTitle)
+        public async Task UpdateBlogPost(int postId, string updatedPost, string updateTitle, string thumb)
         {
             var originalBlogPost = _context.Posts.Find(postId);            
             originalBlogPost.Post = updatedPost;
             originalBlogPost.Title = updateTitle;
+
+            if (!string.IsNullOrEmpty(thumb))
+            {
+                originalBlogPost.ThumbnailImagePath = thumb;
+            }
             await _context.SaveChangesAsync();
 
         }

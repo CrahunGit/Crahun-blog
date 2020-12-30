@@ -5,9 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace WordDaze.Server.Controllers
 {
+    [ApiController]
     public class BlogPostsController : Controller
     {
         private readonly BlogPostService _blogPostService;
@@ -36,19 +40,34 @@ namespace WordDaze.Server.Controllers
 
         [Authorize]
         [HttpPost(Urls.AddBlogPost)]
-        public async Task<IActionResult> AddBlogPost([FromBody]BlogPost newBlogPost)
+        public async Task<IActionResult> AddBlogPost([FromForm] BlogPost newBlogPost, IFormFile file, [FromServices] IWebHostEnvironment _hostingEnvironment)
         {
             newBlogPost.Author = Request.HttpContext.User.Identity.Name;
-            var savedBlogPost = await _blogPostService.AddBlogPost(newBlogPost);
 
+            if (file != null)
+            {
+                var path = Path.Combine(_hostingEnvironment.WebRootPath, "Images", file.FileName);
+                using var stream = System.IO.File.Create(path);
+                await file.CopyToAsync(stream);
+                newBlogPost.ThumbnailImagePath = file.FileName;
+            }
+
+            var savedBlogPost = await _blogPostService.AddBlogPost(newBlogPost);
             return Created(new Uri(Urls.BlogPost.Replace("{id}", savedBlogPost.Id.ToString()), UriKind.Relative), savedBlogPost);
         }
 
         [Authorize]
         [HttpPut(Urls.UpdateBlogPost)]
-        public async Task<IActionResult> UpdateBlogPost(int id, [FromBody]BlogPost updatedBlogPost)
+        public async Task<IActionResult> UpdateBlogPost(int id, [FromForm] BlogPost updatedBlogPost, IFormFile file, [FromServices] IWebHostEnvironment _hostingEnvironment)
         {
-            await _blogPostService.UpdateBlogPost(id, updatedBlogPost.Post, updatedBlogPost.Title);
+            if (file != null)
+            {
+                var path = Path.Combine(_hostingEnvironment.WebRootPath, "Images", file.FileName);
+                using var stream = System.IO.File.Create(path);
+                await file.CopyToAsync(stream);
+            }
+
+            await _blogPostService.UpdateBlogPost(id, updatedBlogPost.Post, updatedBlogPost.Title, file?.FileName);
 
             return Ok();
         }

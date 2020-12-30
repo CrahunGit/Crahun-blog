@@ -6,9 +6,12 @@
         <h2 class="post-title">
             @blogPost.Title
         </h2>
-        <h3 class="post-subtitle">
+        <div class="h3 post-subtitle">
+            <div style="float:left; margin: .3em">
+                <img src="@($"/Images/{blogPost.ThumbnailImagePath}")" width="200px" />
+            </div>
             @(((MarkupString)Markdown.ToHtml(blogPost.PostSummary)))
-        </h3>
+        </div>
     </NavLink>
     <p class="post-meta">
         <NavLink href="/">@blogPost.Author</NavLink>

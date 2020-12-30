@@ -14,6 +14,9 @@
             <ChildContent>
                 <div class="row">
                     <div class="col-md-12">
+                        <div style="float:left; margin: .3em">
+                            <img src="@($"/Images/{BlogPost.ThumbnailImagePath}")" width="200px"/>                            
+                        </div>
                         @((MarkupString)BlogPost.Post)
                     </div>
 

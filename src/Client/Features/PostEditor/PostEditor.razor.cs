@@ -5,6 +5,13 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using WordDaze.Shared;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Net.Http.Headers;
+using System.IO;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace BlogSite.Client.Features.PostEditor
 {
@@ -21,12 +28,14 @@ namespace BlogSite.Client.Features.PostEditor
         protected int CharacterCount { get; set; }
         protected BlogPost ExistingBlogPost { get; set; } = new BlogPost();
         protected bool IsEdit => string.IsNullOrEmpty(PostId) ? false : true;
+        protected string ThumbnailImage { get; set; }
+        protected IBrowserFile file { get; set; }
 
         protected ElementReference editor;
 
         protected override async Task OnInitializedAsync()
         {
-            if (!_appState.IsLoggedIn) 
+            if (!_appState.IsLoggedIn)
             {
                 _uriHelper.NavigateTo("/");
             }
@@ -39,37 +48,72 @@ namespace BlogSite.Client.Features.PostEditor
 
         public async Task UpdateCharacterCount() => CharacterCount = await JSRuntime.InvokeAsync<int>("wordDaze.getCharacterCount", editor);
 
-        public async Task SavePost() 
+        public async Task SavePost()
         {
-            var newPost = new BlogPost() {
-                Title = Title,
-                Post = Post,
-                Posted = DateTime.Now
-            };
+            var content = new MultipartFormDataContent();
+            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
 
-            var response = await _appState._httpClient.PostAsJsonAsync(Urls.AddBlogPost, newPost);
+            if (file != null)
+            {
+                content.Add(new StreamContent(file.OpenReadStream(), Convert.ToInt32(file.Size)), "file", file.Name);
+            }
+
+            content.Add(new StringContent(Title), "Title");
+            content.Add(new StringContent(Post), "Post");
+            content.Add(new StringContent(DateTime.Now.ToString()), "Posted");
+
+            var response = await _appState._httpClient.PostAsync(Urls.AddBlogPost, content);
             var savedPost = await response.Content.ReadFromJsonAsync<BlogPost>();
+
             _uriHelper.NavigateTo($"viewpost/{savedPost.Id}");
         }
 
-        public async Task UpdatePost() 
+        public async Task UpdatePost()
         {
-            await _appState._httpClient.PutAsJsonAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), ExistingBlogPost);
+            var content = new MultipartFormDataContent();
+            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
 
+            if (file != null)
+            {
+                content.Add(new StreamContent(file.OpenReadStream(), Convert.ToInt32(file.Size)), "file", file.Name);
+            }
+
+            content.Add(new StringContent(ExistingBlogPost.Title), "Title");
+            content.Add(new StringContent(ExistingBlogPost.Post), "Post");
+            content.Add(new StringContent(ExistingBlogPost.Posted.ToString()), "Posted");
+            content.Add(new StringContent(ExistingBlogPost.Id.ToString()), "PostId");
+
+            await _appState._httpClient.PutAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), content);
             _uriHelper.NavigateTo($"viewpost/{ExistingBlogPost.Id}");
         }
 
-        public async Task DeletePost() 
+        public async Task DeletePost()
         {
             await _appState._httpClient.DeleteAsync(Urls.DeleteBlogPost.Replace("{id}", ExistingBlogPost.Id.ToString()));
 
             _uriHelper.NavigateTo("/");
         }
 
-        private async Task LoadPost() 
+        private async Task LoadPost()
         {
             ExistingBlogPost = await _appState._httpClient.GetFromJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
+            ThumbnailImage = $"/Images/{ExistingBlogPost.ThumbnailImagePath}";
             CharacterCount = ExistingBlogPost.Post.Length;
+        }
+
+        public async Task SendData(InputFileChangeEventArgs eventArgs)
+        {
+            file = eventArgs.File;
+            await LoadImage(file);
+        }
+
+        async Task LoadImage(IBrowserFile file)
+        {
+            long maxFileSize = 1024 * 1024 * 15;
+            using var fileStream = file.OpenReadStream(maxFileSize);
+            using var memoryStream = new MemoryStream();
+            await fileStream.CopyToAsync(memoryStream);
+            ThumbnailImage = $"data:png;base64,{Convert.ToBase64String(memoryStream.ToArray())}";
         }
     }
 }

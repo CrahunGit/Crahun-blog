@@ -25,5 +25,9 @@
     <ProjectReference Include="..\Shared\BlogSite.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 
 </Project>
