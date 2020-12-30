@@ -60,7 +60,6 @@ namespace BlogSite.Client.Features.PostEditor
 
             content.Add(new StringContent(Title), "Title");
             content.Add(new StringContent(Post), "Post");
-            content.Add(new StringContent(DateTime.Now.ToString()), "Posted");
 
             var response = await _appState._httpClient.PostAsync(Urls.AddBlogPost, content);
             var savedPost = await response.Content.ReadFromJsonAsync<BlogPost>();
@@ -80,7 +79,6 @@ namespace BlogSite.Client.Features.PostEditor
 
             content.Add(new StringContent(ExistingBlogPost.Title), "Title");
             content.Add(new StringContent(ExistingBlogPost.Post), "Post");
-            content.Add(new StringContent(ExistingBlogPost.Posted.ToString()), "Posted");
             content.Add(new StringContent(ExistingBlogPost.Id.ToString()), "PostId");
 
             await _appState._httpClient.PutAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), content);

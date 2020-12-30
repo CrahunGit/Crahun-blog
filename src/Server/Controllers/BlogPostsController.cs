@@ -43,6 +43,7 @@ namespace WordDaze.Server.Controllers
         public async Task<IActionResult> AddBlogPost([FromForm] BlogPost newBlogPost, IFormFile file, [FromServices] IWebHostEnvironment _hostingEnvironment)
         {
             newBlogPost.Author = Request.HttpContext.User.Identity.Name;
+            newBlogPost.Posted = DateTime.Now;
 
             if (file != null)
             {
