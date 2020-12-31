@@ -3,8 +3,9 @@
 @inherits ViewPostModel
 @inject AppState _appState
 
-<WdHeader Heading=@BlogPost.Title Author=@BlogPost.Author PostedDate=@BlogPost.Posted></WdHeader>
+<Title Value="@BlogPost.Title"></Title>
 
+<WdHeader Heading=@BlogPost.Title Author=@BlogPost.Author PostedDate=@BlogPost.Posted></WdHeader>
 <article>
     <div class="container">
         <SkeletonCards IsLoading="BlogPost.Author is null" ShouldAnimate="true" NumberOfColumns="1">
@@ -14,19 +15,23 @@
             <ChildContent>
                 <div class="row">
                     <div class="col-md-12">
-                        <div style="float:left; margin: 1em">
-                            <img src="@($"/Images/{BlogPost.ThumbnailImagePath}")" width="200px"/>                            
-                        </div>
+                        @if (!string.IsNullOrEmpty(BlogPost.ThumbnailImagePath))
+                        {
+                            <div style="float:left; margin: 1em">
+                                <img src="@($"/Images/{BlogPost.ThumbnailImagePath}")" style="max-width:200px" />
+                            </div>
+                        }
                         @((MarkupString)BlogPost.Post)
                     </div>
+                    <div class="clearfix"></div>
 
                     @if (_appState.IsLoggedIn)
                     {
-                    <div class="row">
-                        <div class="col-md-12">
-                            <NavLink class="btn btn-primary float-right" href="@($"/editpost/{BlogPost.Id}")">Edit</NavLink>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <NavLink class="btn btn-primary float-right" href="@($"/editpost/{BlogPost.Id}")">Edit</NavLink>
+                            </div>
                         </div>
-                    </div>
                     }
                 </div>
             </ChildContent>
