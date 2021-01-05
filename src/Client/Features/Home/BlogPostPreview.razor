@@ -7,9 +7,6 @@
             @blogPost.Title
         </h2>
         <div class="h3 post-subtitle">
-            <div style="float:left; margin: .3em">
-                <img src="@($"/Images/{blogPost.ThumbnailImagePath}")" style="max-width: 200px" />
-            </div>
             @(((MarkupString)Markdown.ToHtml(blogPost.PostSummary)))
         </div>
     </NavLink>
