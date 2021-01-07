@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using WordDaze.Shared;
 
 
@@ -25,6 +26,14 @@ namespace BlogSite.Client.Features.Login
             else
             {
                 ShowLoginFailed = true;
+            }
+        }
+
+        public async Task PressedEnter(KeyboardEventArgs e)
+        {
+            if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            {
+                await Login();
             }
         }
     }
