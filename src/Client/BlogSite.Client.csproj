@@ -18,6 +18,7 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
     <PackageReference Include="CrahunBlazorComponents" Version="1.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web.Extensions" Version="5.0.0-preview9.20513.1" />
+    <PackageReference Include="Markdig.SyntaxHighlighting" Version="1.1.7" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Client", "src\Clie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogSite.Shared", "src\Shared\BlogSite.Shared.csproj", "{7C617055-D7BF-4580-AB3A-D71F07BC02EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "src\Database\Database.csproj", "{C02BF47F-4486-4114-91A2-9E723969F224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "src\Database\Database.csproj", "{C02BF47F-4486-4114-91A2-9E723969F224}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,12 +72,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{2E76A876-8667-45FB-95F9-5D164544FB15} = {A2284CD8-E2FF-495B-B904-1BFC091BFA91}
-		{F55A415E-88A2-4D2C-8CD4-BA22D4B70199} = {A2284CD8-E2FF-495B-B904-1BFC091BFA91}
-		{7C617055-D7BF-4580-AB3A-D71F07BC02EC} = {A2284CD8-E2FF-495B-B904-1BFC091BFA91}
-		{C02BF47F-4486-4114-91A2-9E723969F224} = {A2284CD8-E2FF-495B-B904-1BFC091BFA91}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2C78A84C-889C-4081-A87B-6D4D82D909B0}

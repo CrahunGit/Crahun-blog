@@ -5,6 +5,7 @@ using Markdig;
 using Microsoft.AspNetCore.Components;
 using WordDaze.Shared;
 using System.Net.Http.Json;
+using Markdig.SyntaxHighlighting;
 
 namespace BlogSite.Client.Features.ViewPost
 {
@@ -23,8 +24,9 @@ namespace BlogSite.Client.Features.ViewPost
 
         private async Task LoadBlogPost()
         {
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseEmojiAndSmiley().UseSyntaxHighlighting().Build();
             BlogPost = await _httpClient.GetFromJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
-            BlogPost.Post = Markdown.ToHtml(BlogPost.Post);
+            BlogPost.Post = Markdown.ToHtml(BlogPost.Post, pipeline);
         }
     }
 }
