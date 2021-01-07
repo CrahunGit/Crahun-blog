@@ -35,3 +35,9 @@ button.logout {
 button.logout:hover {
     text-decoration: underline;
 }
+
+pre {
+    background-color: #f3eeee;
+    padding: .8em;
+    border-radius: .4em;
+}
