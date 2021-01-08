@@ -68,7 +68,8 @@ namespace WordDaze.Server.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            await _blogPostService.UpdateBlogPost(id, updatedBlogPost.Post, updatedBlogPost.Title, file?.FileName);
+            updatedBlogPost.ThumbnailImagePath = file?.FileName;
+            await _blogPostService.UpdateBlogPost(id, updatedBlogPost);
 
             return Ok();
         }

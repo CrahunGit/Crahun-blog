@@ -25,6 +25,9 @@ namespace BlogSite.Client.Features.PostEditor
 
         protected string Post { get; set; }
         protected string Title { get; set; }
+
+        protected string Summary { get; set; }
+
         protected int CharacterCount { get; set; }
         protected BlogPost ExistingBlogPost { get; set; } = new BlogPost();
         protected bool IsEdit => string.IsNullOrEmpty(PostId) ? false : true;
@@ -58,8 +61,9 @@ namespace BlogSite.Client.Features.PostEditor
                 content.Add(new StreamContent(file.OpenReadStream(), Convert.ToInt32(file.Size)), "file", file.Name);
             }
 
-            content.Add(new StringContent(Title), "Title");
-            content.Add(new StringContent(Post), "Post");
+            content.Add(new StringContent(Title), nameof(Title));
+            content.Add(new StringContent(Post), nameof(Post));
+            content.Add(new StringContent(Summary), nameof(BlogPost.PostSummary));
 
             var response = await _appState._httpClient.PostAsync(Urls.AddBlogPost, content);
             var savedPost = await response.Content.ReadFromJsonAsync<BlogPost>();
@@ -77,9 +81,10 @@ namespace BlogSite.Client.Features.PostEditor
                 content.Add(new StreamContent(file.OpenReadStream(), Convert.ToInt32(file.Size)), "file", file.Name);
             }
 
-            content.Add(new StringContent(ExistingBlogPost.Title), "Title");
-            content.Add(new StringContent(ExistingBlogPost.Post), "Post");
-            content.Add(new StringContent(ExistingBlogPost.Id.ToString()), "PostId");
+            content.Add(new StringContent(ExistingBlogPost.Title), nameof(Title));
+            content.Add(new StringContent(ExistingBlogPost.Post), nameof(Post));
+            content.Add(new StringContent(ExistingBlogPost.PostSummary), nameof(BlogPost.PostSummary));
+            content.Add(new StringContent(ExistingBlogPost.Id.ToString()), nameof(PostId));
 
             await _appState._httpClient.PutAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), content);
             _uriHelper.NavigateTo($"viewpost/{ExistingBlogPost.Id}");
@@ -95,7 +100,12 @@ namespace BlogSite.Client.Features.PostEditor
         private async Task LoadPost()
         {
             ExistingBlogPost = await _appState._httpClient.GetFromJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
-            ThumbnailImage = $"/Images/{ExistingBlogPost.ThumbnailImagePath}";
+
+            if (!string.IsNullOrEmpty(ExistingBlogPost.ThumbnailImagePath))
+            {
+                ThumbnailImage = $"/Images/{ExistingBlogPost.ThumbnailImagePath}";
+            }
+
             CharacterCount = ExistingBlogPost.Post.Length;
         }
 

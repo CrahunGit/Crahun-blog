@@ -10,15 +10,6 @@ namespace WordDaze.Shared
         public DateTime Posted { get; set; }
         public string Post { get; set; }
         public string ThumbnailImagePath { get; set; }
-
-        public string PostSummary 
-        { 
-            get {
-                if (Post?.Length > 50)
-                    return Post.Substring(0, 50);
-
-                return Post;
-            }
-        }
+        public string PostSummary { get; set; }
     }
 }

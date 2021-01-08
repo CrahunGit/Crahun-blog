@@ -18,11 +18,17 @@ else
             {
                 <div class="editor">
                     <input @bind=@ExistingBlogPost.Title placeholder="Title" class="form-control" />
+                    <textarea @bind=@ExistingBlogPost.PostSummary placeholder="Write your resume (Supports Markdown)" rows="5"></textarea>
                     <textarea @ref="editor" @bind=@ExistingBlogPost.Post @onkeyup="@UpdateCharacterCount" placeholder="Write your post (Supports Markdown)" rows="25"></textarea>
                     <div class="character-count text-left">@CharacterCount Characters</div>
+
                     <div class="mb-2">
                         <InputFile OnChange="@SendData" />
-                        <img src="@ThumbnailImage" width="200" />
+
+                        @if (!string.IsNullOrEmpty(ThumbnailImage))
+                        {
+                            <img src="@ThumbnailImage" width="200" />
+                        }
                     </div>
 
                     <div class="text-right">
@@ -37,9 +43,14 @@ else
                     <input @bind=@Title placeholder="Title" class="form-control" />
                     <textarea @ref="editor" @bind=@Post @onkeyup="@UpdateCharacterCount" placeholder="Write your post (Supports Markdown)" rows="25"></textarea>
                     <div class="character-count text-left">@CharacterCount Characters</div>
+
                     <div class="mb-2">
                         <InputFile OnChange="@SendData" />
-                        <img src="@ThumbnailImage" width="200" />
+
+                        @if (!string.IsNullOrEmpty(ThumbnailImage))
+                        {
+                            <img src="@ThumbnailImage" width="200" />
+                        }
                     </div>
 
                     <div class="text-right">
