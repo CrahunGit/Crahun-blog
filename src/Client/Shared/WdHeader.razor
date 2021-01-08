@@ -5,17 +5,17 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="@((Author != null && PostedDate != null) ? "post-heading" : "site-heading" )">
-                <h1>@Heading</h1>
-                @if (SubHeading != null)
-                {
-                <span class="subheading">@SubHeading</span>
-                }
-                @if (Author != null && PostedDate != null) 
-                {
-                <span class="meta">Publicado por <a href="#">@Author</a> el @PostedDate?.ToShortDateString()</span>
-                }
-            </div>
+                <div class="@((Author != null && PostedDate != null) ? "post-heading" : "site-heading" )">
+                    <h1>@Heading</h1>
+                    @if (SubHeading != null)
+                    {
+                        <span class="subheading">@SubHeading</span>
+                    }
+                    @if (Author != null && PostedDate != null)
+                    {
+                        <span class="meta">Publicado por <a href="#">@Author</a> el @PostedDate?.ToString("dd/MM/yyyy")</span>
+                    }
+                </div>
             </div>
         </div>
     </div>
