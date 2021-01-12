@@ -1,3 +1,4 @@
+using Append.Blazor.Notifications;
 using Blazor.Analytics;
 using Blazored.LocalStorage;
 using BlogSite.Client;
@@ -74,6 +75,7 @@ namespace BlogSite.Server
 
             services.AddBlazoredLocalStorage();
             services.AddScoped<AppState>();
+            services.AddNotifications();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

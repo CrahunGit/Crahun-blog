@@ -6,6 +6,8 @@ using WordDaze.Shared;
 using System.Linq;
 using System.Net.Http.Json;
 using Markdig;
+using Append.Blazor.Notifications;
+using Blazored.LocalStorage;
 
 namespace BlogSite.Client.Features.Home
 {
@@ -13,11 +15,34 @@ namespace BlogSite.Client.Features.Home
     {
         [Inject] private HttpClient _httpClient { get; set; }
 
+        [Inject] private INotificationService _notificationService { get; set; }
+
+        [Inject] private ILocalStorageService _localStorageService { get; set; }
+
         protected List<BlogPost> blogPosts { get; set; }
 
         protected override async Task OnInitializedAsync()
-        {
+        {     
             await LoadBlogPosts();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (!firstRender)
+            {
+                return;
+            }
+
+            var hasWebPush = await _notificationService.IsSupportedByBrowserAsync();
+            var isAllowed = await _notificationService.RequestPermissionAsync() == PermissionType.Granted;
+            var isNotified = await _localStorageService.GetItemAsync<bool>("isNotified") == true;
+
+            if (hasWebPush && isAllowed && !isNotified)
+            {
+                await _localStorageService.SetItemAsync<bool>("isNotified", true);
+                NotificationOptions options = new NotificationOptions { Lang = "es", Body = "Te iremos informando", Icon = "/img/foto.jpg" };
+                await _notificationService.CreateAsync("Gracias", options);
+            }
         }
 
         private async Task LoadBlogPosts()
