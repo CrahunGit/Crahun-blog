@@ -3,14 +3,13 @@
 
 <div class="post-preview">
     <NavLink href="@($"viewpost/{blogPost.Id}")">
-        <h2 class="post-title">
+        <h3 class="post-title">
             @blogPost.Title
-        </h2>
-        <div class="h3 post-subtitle">
+        </h3>
+        <div class="post-subtitle">
             @(((MarkupString)Markdown.ToHtml(blogPost.PostSummary ?? "")))
         </div>
     </NavLink>
-    <div class="clearfix mb-3"></div>
     <p class="post-meta">
         <NavLink href="/">@blogPost.Author</NavLink>, @blogPost.Posted.ToString("dd/MM/yyyy")
     </p>
