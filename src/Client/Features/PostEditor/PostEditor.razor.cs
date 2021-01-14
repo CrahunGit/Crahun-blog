@@ -61,9 +61,9 @@ namespace BlogSite.Client.Features.PostEditor
                 content.Add(new StreamContent(file.OpenReadStream(), Convert.ToInt32(file.Size)), "file", file.Name);
             }
 
-            content.Add(new StringContent(Title), nameof(Title));
-            content.Add(new StringContent(Post), nameof(Post));
-            content.Add(new StringContent(Summary), nameof(BlogPost.PostSummary));
+            content.Add(new StringContent(Title ?? string.Empty), nameof(Title));
+            content.Add(new StringContent(Post ?? string.Empty), nameof(Post));
+            content.Add(new StringContent(Summary ?? string.Empty), nameof(BlogPost.PostSummary));
 
             var response = await _appState._httpClient.PostAsync(Urls.AddBlogPost, content);
             var savedPost = await response.Content.ReadFromJsonAsync<BlogPost>();
@@ -81,10 +81,10 @@ namespace BlogSite.Client.Features.PostEditor
                 content.Add(new StreamContent(file.OpenReadStream(), Convert.ToInt32(file.Size)), "file", file.Name);
             }
 
-            content.Add(new StringContent(ExistingBlogPost.Title), nameof(Title));
-            content.Add(new StringContent(ExistingBlogPost.Post), nameof(Post));
-            content.Add(new StringContent(ExistingBlogPost.PostSummary), nameof(BlogPost.PostSummary));
-            content.Add(new StringContent(ExistingBlogPost.Id.ToString()), nameof(PostId));
+            content.Add(new StringContent(ExistingBlogPost.Title ?? string.Empty), nameof(Title));
+            content.Add(new StringContent(ExistingBlogPost.Post ?? string.Empty), nameof(Post));
+            content.Add(new StringContent(ExistingBlogPost.PostSummary ?? string.Empty), nameof(BlogPost.PostSummary));
+            content.Add(new StringContent(ExistingBlogPost.Id.ToString() ?? string.Empty), nameof(PostId));
 
             await _appState._httpClient.PutAsync(Urls.UpdateBlogPost.Replace("{id}", PostId), content);
             _uriHelper.NavigateTo($"viewpost/{ExistingBlogPost.Id}");

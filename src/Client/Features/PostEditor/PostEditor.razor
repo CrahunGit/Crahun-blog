@@ -41,7 +41,7 @@ else
             {
                 <div class="editor">
                     <input @bind=@Title placeholder="Title" class="form-control" />
-                    <textarea @bind=@ExistingBlogPost.PostSummary placeholder="Write your resume (Supports Markdown)" rows="5"></textarea>
+                    <textarea @bind=@Summary placeholder="Write your resume (Supports Markdown)" rows="5"></textarea>
                     <textarea @ref="editor" @bind=@Post @onkeyup="@UpdateCharacterCount" placeholder="Write your post (Supports Markdown)" rows="25"></textarea>
                     <div class="character-count text-left">@CharacterCount Characters</div>
 
