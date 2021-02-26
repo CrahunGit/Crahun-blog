@@ -333,3 +333,4 @@ ASALocalRun/
 /BlogSite/Server/Database.db
 /BlogSite/Server/appsettings.Production.json
 /src/Server/Database.db
+/src/Server/wwwroot/Images

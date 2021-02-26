@@ -8,5 +8,6 @@ namespace WordDaze.Shared
         public const string UpdateBlogPost = "api/blogpost/{id}";
         public const string DeleteBlogPost = "api/blogpost/{id}";
         public const string Login = "api/login";
+        public const string Image = "api/images";
     }
 }
